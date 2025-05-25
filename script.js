@@ -1,3 +1,4 @@
+
 const tarotDeck = [
   "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor",
   "The Hierophant", "The Lovers", "The Chariot", "Strength", "The Hermit",
@@ -19,36 +20,46 @@ const tarotDeck = [
 ];
 
 async function drawAndAnalyze() {
-  const question = document.getElementById("userQuestion").value.trim();
-  const drawn = [];
-  const used = new Set();
-  while (drawn.length < 3) {
-    let i = Math.floor(Math.random() * tarotDeck.length);
-    if (!used.has(i)) {
-      used.add(i);
-      drawn.push(tarotDeck[i]);
+  try {
+    const question = document.getElementById("userQuestion").value.trim();
+    const drawn = [];
+    const used = new Set();
+    while (drawn.length < 3) {
+      let i = Math.floor(Math.random() * tarotDeck.length);
+      if (!used.has(i)) {
+        used.add(i);
+        drawn.push(tarotDeck[i]);
+      }
     }
+
+    const message = `Câu hỏi của người dùng: "${question}". Các lá bài được rút là:\n1. ${drawn[0]}\n2. ${drawn[1]}\n3. ${drawn[2]}\n\nHãy phân tích trải bài 3 lá (quá khứ, hiện tại, tương lai) và đưa ra thông điệp Tarot bằng tiếng Việt.`;
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer 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"
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: message }],
+        temperature: 0.7
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(`OpenAI API Error: ${data.error?.message || response.status}`);
+    }
+
+    const aiResponse = data.choices?.[0]?.message?.content || "Không có phản hồi từ AI.";
+    const cardsHTML = drawn.map(card => `<div class="card"><div class="card-name">${card}</div></div>`).join("");
+
+    document.getElementById("cards").innerHTML = cardsHTML;
+    document.getElementById("result").innerText = aiResponse;
+
+  } catch (error) {
+    document.getElementById("result").innerText = "⚠️ Lỗi khi gọi AI: " + error.message;
   }
-
-  const message = `Câu hỏi của người dùng: "${question}". Các lá bài được rút là:\n1. ${drawn[0]}\n2. ${drawn[1]}\n3. ${drawn[2]}\n\nHãy phân tích trải bài 3 lá (quá khứ, hiện tại, tương lai) và đưa ra thông điệp Tarot bằng tiếng Việt.`;
-
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer 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"
-    },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: message }],
-      temperature: 0.7
-    })
-  });
-
-  const data = await response.json();
-  const aiResponse = data.choices[0].message.content;
-
-  const cardsHTML = drawn.map(card => `<div class="card"><div class="card-name">${card}</div></div>`).join("");
-  document.getElementById("cards").innerHTML = cardsHTML;
-  document.getElementById("result").innerText = aiResponse;
 }
