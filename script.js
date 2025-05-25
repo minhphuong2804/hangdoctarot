@@ -38,7 +38,7 @@ async function drawAndAnalyze() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer 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",
         "HTTP-Referer": "https://yourdomain.com",
         "X-Title": "Tarot AI"
       },
