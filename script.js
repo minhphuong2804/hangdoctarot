@@ -39,7 +39,7 @@ async function drawAndAnalyze() {
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer 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",
-        "HTTP-Referer": "https://yourdomain.com",
+        "HTTP-Referer": ""HTTP-Referer": "https://minhphuong2804.github.io",
         "X-Title": "Tarot AI"
       },
       body: JSON.stringify({
