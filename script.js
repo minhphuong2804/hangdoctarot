@@ -49,7 +49,7 @@ async function drawAndAnalyze() {
   const data = await response.json();
   const aiResponse = data.choices[0].message.content;
 
-  const cardsHTML = drawn.map(card => \`<div class="card"><div class="card-name">\${card}</div></div>\`).join("");
+  const cardsHTML = drawn.map(card => `<div class="card"><div class="card-name">${card}</div></div>`).join("");
   document.getElementById("cards").innerHTML = cardsHTML;
   document.getElementById("result").innerText = aiResponse;
 }
