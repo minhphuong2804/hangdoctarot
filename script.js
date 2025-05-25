@@ -34,14 +34,16 @@ async function drawAndAnalyze() {
 
     const message = `Câu hỏi của người dùng: "${question}". Các lá bài được rút là:\n1. ${drawn[0]}\n2. ${drawn[1]}\n3. ${drawn[2]}\n\nHãy phân tích trải bài 3 lá (quá khứ, hiện tại, tương lai) và đưa ra thông điệp Tarot bằng tiếng Việt.`;
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer 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"
+        "Authorization": "Bearer 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",
+        "HTTP-Referer": "https://yourdomain.com",
+        "X-Title": "Tarot AI"
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "openai/gpt-3.5-turbo",
         messages: [{ role: "user", content: message }],
         temperature: 0.7
       })
@@ -50,7 +52,7 @@ async function drawAndAnalyze() {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(`OpenAI API Error: ${data.error?.message || response.status}`);
+      throw new Error(`OpenRouter API Error: ${data.error?.message || response.status}`);
     }
 
     const aiResponse = data.choices?.[0]?.message?.content || "Không có phản hồi từ AI.";
