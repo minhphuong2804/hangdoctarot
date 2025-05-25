@@ -37,13 +37,13 @@ async function drawAndAnalyze() {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer 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",
-        "HTTP-Referer": ""HTTP-Referer": "https://minhphuong2804.github.io",
-        "X-Title": "Tarot AI"
+        "Authorization": "Bearer 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",
+        "HTTP-Referer": "https://minhphuong2804.github.io",
+        "X-Title": "Chị Hằng Tarot",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "openai/gpt-3.5-turbo",
+        model: "openai/gpt-4o",
         messages: [{ role: "user", content: message }],
         temperature: 0.7
       })
