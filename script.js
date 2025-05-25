@@ -39,7 +39,7 @@ async function drawAndAnalyze() {
       headers: {
         "Authorization": "Bearer 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",
         "HTTP-Referer": "https://minhphuong2804.github.io",
-        "X-Title": "Chị Hằng Tarot",
+        "X-Title": "Chi Hang Tarot",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
